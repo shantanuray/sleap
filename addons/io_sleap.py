@@ -6,13 +6,13 @@ from pathlib import PurePath
 from sleap import Labels, Video
 
 
-def convert(in_filename: str, out_filename: str, format: str = 'analysis', video: Video = None):
+def convert(in_filepath: str, out_filepath: str, format: str = 'analysis', video: Video = None):
     """`sleap-convert` function for converting .slp to different formats.
 
     Args:
-        in_filename: Input slp file
-        out_filename: Output converted filename
-        format: Type of conversion (must match extension of out_filename)
+        in_filepath: Input slp file path
+        out_filepath: Output file path for the converted file
+        format: Type of conversion (must match extension of out_filepath)
         video: video
 
     Reads:
@@ -51,9 +51,9 @@ def convert(in_filename: str, out_filename: str, format: str = 'analysis', video
     """
     assert format in ['h5', 'slp', 'json', 'analysis'], f'Incorrect conversion format {format}'
 
-    video_callback = Labels.make_video_callback([dirname(in_filename)])
+    video_callback = Labels.make_video_callback([dirname(in_filepath)])
     try:
-        labels: Labels = Labels.load_file(in_filename, video_search=video_callback)
+        labels: Labels = Labels.load_file(in_filepath, video_search=video_callback)
     except TypeError:
         print("Input file isn't SLEAP dataset so attempting other importers...")
         from sleap.io.format import read
@@ -61,7 +61,7 @@ def convert(in_filename: str, out_filename: str, format: str = 'analysis', video
         video_path = video if video else None
 
         labels = read(
-            in_filename,
+            in_filepath,
             for_object="labels",
             as_format="*",
             video_search=video_callback,
@@ -73,15 +73,15 @@ def convert(in_filename: str, out_filename: str, format: str = 'analysis', video
 
         write_analysis(
             labels,
-            output_path=out_filename,
-            labels_path=in_filename,
+            output_path=out_filepath,
+            labels_path=in_filepath,
             all_frames=True,
             video=video,
         )
 
     elif format in ("slp", "h5", "json"):
-        print(f"Output SLEAP dataset: {out_filename}")
-        Labels.save_file(labels, out_filename)
+        print(f"Output SLEAP dataset: {out_filepath}")
+        Labels.save_file(labels, out_filepath)
 
     else:
         print("You didn't specify how to convert the file.")
