@@ -19,6 +19,22 @@ def extract_prefix(in_string: str, delim_pattern: str = r'\.mp4') -> str:
     return out_str
 
 
+def extract_match(in_string: str, pattern: str = r'.*_cam\d+') -> str:
+    """Find pattern in in_string and return match.
+    If not match is found, return None."""
+    assert len(in_string) > 0, "Input string is empty"
+    assert len(pattern) > 0, "Pattern string is empty"
+    # search for pattern in string
+    re_match = re.search(pattern, in_string)
+    if re_match is None:
+        # pattern not found
+        out_str = None
+    else:
+        # extract prefix before pattern
+        out_str = in_string[re_match.span()[0]:re_match.span()[1]]
+    return out_str
+
+
 def get_files(path: str, file_pattern: str = r'.*\.slp') -> list:
     """Find all matching files in path that match file_pattern and return list of complete file paths."""
     assert len(path) > 0, "Path string is empty"
