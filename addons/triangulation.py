@@ -56,7 +56,7 @@ def get_3d_poses(
     refine_calibration: bool = False,
     show_progress: bool = False
     ) -> np.ndarray:
-    """Collect all 3D poses across all frames via DLT triangulation. 
+    """Collect all 3D poses across all frames. 
     
     Args:
         poses_2d: A length # cameras list of pose matrices for a single animal. Each pose matrix is of 

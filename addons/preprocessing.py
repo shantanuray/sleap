@@ -155,8 +155,6 @@ def get_2d_poses(analysis_file: str, show_nodes: bool = False, show_file: bool =
     
         # Grab poses and print shape, which should be (# frames, # nodes, 2, # tracks)
         poses_2d = f['tracks'][:].T
-        print(f'Tracks of shape: {poses_2d.shape}')
-        print()
     
     # Interpolate the nan values in the tracks        
     if clean:
