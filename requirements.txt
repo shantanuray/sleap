@@ -34,3 +34,5 @@ rich==10.16.1
 certifi>=2017.4.17,<=2021.10.8
 pynwb
 ndx-pose
+aniposelib
+ipykernel
